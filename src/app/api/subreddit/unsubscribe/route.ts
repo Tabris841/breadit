@@ -13,6 +13,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
+
     const { subredditId } = SubredditSubscriptionValidator.parse(body);
 
     // check if user has already subscribed or not
@@ -44,7 +45,6 @@ export async function POST(req: Request) {
 
     return new Response(subredditId);
   } catch (error) {
-    error;
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 400 });
     }

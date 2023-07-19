@@ -6,15 +6,15 @@ import { PostValidator } from "@/lib/validators/post";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-
-    const { title, content, subredditId } = PostValidator.parse(body);
-
     const session = await getAuthSession();
 
     if (!session?.user) {
       return new Response("Unauthorized", { status: 401 });
     }
+
+    const body = await req.json();
+
+    const { title, content, subredditId } = PostValidator.parse(body);
 
     // verify user is subscribed to passed subreddit id
     const subscription = await db.subscription.findFirst({

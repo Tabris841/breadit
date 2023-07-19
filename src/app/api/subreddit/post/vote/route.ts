@@ -5,20 +5,21 @@ import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { PostVoteValidator } from "@/lib/validators/vote";
 import { CachedPost } from "@/types/redis";
+import { getVotesCount } from "@/lib/utils";
 
 const CACHE_AFTER_UPVOTES = 1;
 
 export async function PATCH(req: Request) {
   try {
-    const body = await req.json();
-
-    const { postId, voteType } = PostVoteValidator.parse(body);
-
     const session = await getAuthSession();
 
     if (!session?.user) {
       return new Response("Unauthorized", { status: 401 });
     }
+
+    const body = await req.json();
+
+    const { postId, voteType } = PostVoteValidator.parse(body);
 
     // check if user has already voted on this post
     const existingVote = await db.vote.findFirst({
@@ -54,14 +55,7 @@ export async function PATCH(req: Request) {
           },
         });
 
-        // Recount the votes
-        const votesAmt = post.votes.reduce((acc, vote) => {
-          if (vote.type === "UP") return acc + 1;
-          if (vote.type === "DOWN") return acc - 1;
-          return acc;
-        }, 0);
-
-        if (votesAmt >= CACHE_AFTER_UPVOTES) {
+        if (getVotesCount(post.votes) >= CACHE_AFTER_UPVOTES) {
           const cachePayload: CachedPost = {
             authorUsername: post.author.username ?? "",
             content: JSON.stringify(post.content),
@@ -90,14 +84,7 @@ export async function PATCH(req: Request) {
         },
       });
 
-      // Recount the votes
-      const votesAmt = post.votes.reduce((acc, vote) => {
-        if (vote.type === "UP") return acc + 1;
-        if (vote.type === "DOWN") return acc - 1;
-        return acc;
-      }, 0);
-
-      if (votesAmt >= CACHE_AFTER_UPVOTES) {
+      if (getVotesCount(post.votes) >= CACHE_AFTER_UPVOTES) {
         const cachePayload: CachedPost = {
           authorUsername: post.author.username ?? "",
           content: JSON.stringify(post.content),
@@ -122,14 +109,7 @@ export async function PATCH(req: Request) {
       },
     });
 
-    // Recount the votes
-    const votesAmt = post.votes.reduce((acc, vote) => {
-      if (vote.type === "UP") return acc + 1;
-      if (vote.type === "DOWN") return acc - 1;
-      return acc;
-    }, 0);
-
-    if (votesAmt >= CACHE_AFTER_UPVOTES) {
+    if (getVotesCount(post.votes) >= CACHE_AFTER_UPVOTES) {
       const cachePayload: CachedPost = {
         authorUsername: post.author.username ?? "",
         content: JSON.stringify(post.content),
@@ -144,7 +124,6 @@ export async function PATCH(req: Request) {
 
     return new Response("OK");
   } catch (error) {
-    error;
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 400 });
     }
