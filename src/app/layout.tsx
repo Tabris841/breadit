@@ -5,6 +5,7 @@ import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/Navbar";
 import { Toaster } from "@/components/ui/Toaster";
+import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "Reddit Clone",
@@ -29,13 +30,15 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-screen bg-slate-50 pt-12 antialiased">
-        <Navbar />
+        <Providers>
+          <Navbar />
 
-        {authModal}
+          {authModal}
 
-        <div className="container mx-auto h-full max-w-7xl pt-12">
-          {children}
-        </div>
+          <div className="container mx-auto h-full max-w-7xl pt-12">
+            {children}
+          </div>
+        </Providers>
 
         <Toaster />
       </body>
