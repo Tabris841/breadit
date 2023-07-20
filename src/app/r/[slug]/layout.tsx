@@ -24,8 +24,10 @@ export default async function Layout({
 }) {
   const session = await getAuthSession();
 
+  const subredditName = decodeURIComponent(slug);
+
   const subreddit = await db.subreddit.findFirst({
-    where: { name: slug },
+    where: { name: subredditName },
     include: {
       posts: {
         include: {
@@ -41,7 +43,7 @@ export default async function Layout({
     : await db.subscription.findFirst({
         where: {
           subreddit: {
-            name: slug,
+            name: subredditName,
           },
           user: {
             id: session.user.id,
@@ -56,7 +58,7 @@ export default async function Layout({
   const memberCount = await db.subscription.count({
     where: {
       subreddit: {
-        name: slug,
+        name: subredditName,
       },
     },
   });

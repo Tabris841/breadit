@@ -18,7 +18,7 @@ export default async function Page({ params }: Props) {
   const session = await getAuthSession();
 
   const subreddit = await db.subreddit.findFirst({
-    where: { name: slug },
+    where: { name: decodeURIComponent(slug) },
     include: {
       posts: {
         include: {
