@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
-import SignUp from "@/components/SignUp";
-import { buttonVariants } from "@/components/ui/Button";
+import SignUp from "@/components/sign-up";
+import { buttonVariants } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 export default function Page() {

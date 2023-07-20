@@ -1,8 +1,8 @@
-import { ClassValue, clsx } from "clsx";
+import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { formatDistanceToNowStrict } from "date-fns";
 import locale from "date-fns/locale/en-US";
-import { Vote } from "@prisma/client";
+import { type Vote } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -27,7 +27,11 @@ const formatDistanceLocale = {
   almostXYears: "{{count}}y",
 };
 
-function formatDistance(token: string, count: number, options?: any): string {
+function formatDistance(
+  token: string,
+  count: number,
+  options?: { addSuffix?: boolean; comparison?: number },
+): string {
   options = options || {};
 
   const result = formatDistanceLocale[
@@ -35,7 +39,11 @@ function formatDistance(token: string, count: number, options?: any): string {
   ].replace("{{count}}", count.toString());
 
   if (options.addSuffix) {
-    if (options.comparison > 0) {
+    if (
+      typeof options.comparison === "number" &&
+      !isNaN(options.comparison) &&
+      options.comparison > 0
+    ) {
       return "in " + result;
     } else {
       if (result === "just now") return result;

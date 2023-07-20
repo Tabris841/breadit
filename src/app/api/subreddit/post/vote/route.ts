@@ -4,7 +4,7 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { PostVoteValidator } from "@/lib/validators/vote";
-import { CachedPost } from "@/types/redis";
+import { type CachedPost } from "@/types/redis";
 import { getVotesCount } from "@/lib/utils";
 
 const CACHE_AFTER_UPVOTES = 1;
@@ -17,7 +17,7 @@ export async function PATCH(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const body = await req.json();
+    const body: unknown = await req.json();
 
     const { postId, voteType } = PostVoteValidator.parse(body);
 

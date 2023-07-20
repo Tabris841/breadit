@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Home as HomeIcon } from "lucide-react";
 
-import CustomFeed from "@/components/homepage/CustomFeed";
-import GeneralFeed from "@/components/homepage/GeneralFeed";
-import { buttonVariants } from "@/components/ui/Button";
+import CustomFeed from "@/components/homepage/custom-feed";
+import GeneralFeed from "@/components/homepage/general-feed";
+import { buttonVariants } from "@/components/ui/button";
 import { getAuthSession } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";

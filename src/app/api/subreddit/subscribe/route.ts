@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const body = await req.json();
+    const body: unknown = await req.json();
     const { subredditId } = SubredditSubscriptionValidator.parse(body);
 
     // check if user has already subscribed to subreddit

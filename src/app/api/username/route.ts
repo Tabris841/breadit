@@ -12,7 +12,7 @@ export async function PATCH(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const body = await req.json();
+    const body: unknown = await req.json();
     const { name } = UsernameValidator.parse(body);
 
     // check if username is taken

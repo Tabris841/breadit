@@ -3,9 +3,9 @@ import { Inter } from "next/font/google";
 
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
-import { Navbar } from "@/components/Navbar";
-import { Toaster } from "@/components/ui/Toaster";
-import Providers from "@/components/Providers";
+import { Navbar } from "@/components/navbar";
+import { Toaster } from "@/components/ui/toaster";
+import Providers from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "Reddit Clone",

@@ -11,7 +11,7 @@ export async function PATCH(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const body = await req.json();
+    const body: unknown = await req.json();
 
     const { postId, text, replyToId } = CommentValidator.parse(body);
 

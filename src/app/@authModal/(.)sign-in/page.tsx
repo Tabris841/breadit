@@ -1,5 +1,5 @@
-import CloseModal from "@/components/CloseModal";
-import SignIn from "@/components/SignIn";
+import CloseModal from "@/components/close-modal";
+import SignIn from "@/components/sign-in";
 
 export default function Page() {
   return (

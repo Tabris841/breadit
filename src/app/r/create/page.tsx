@@ -6,10 +6,9 @@ import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
+import { Input, Button } from "@/components/ui";
 import { useCustomToasts } from "@/hooks/use-custom-toasts";
-import { CreateSubredditPayload } from "@/lib/validators/subreddit";
+import type { CreateSubredditPayload } from "@/lib/validators/subreddit";
 
 export default function Page() {
   const router = useRouter();
@@ -22,8 +21,8 @@ export default function Page() {
         name: input,
       };
 
-      const { data } = await axios.post("/api/subreddit", payload);
-      return data as string;
+      const { data } = await axios.post<string>("/api/subreddit", payload);
+      return data;
     },
     onError: (err) => {
       if (err instanceof AxiosError) {

@@ -4,9 +4,9 @@ import { format } from "date-fns";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
-import ToFeedButton from "@/components/ToFeedButton";
-import { buttonVariants } from "@/components/ui/Button";
+import SubscribeLeaveToggle from "@/components/subscribe-leave-toggle";
+import ToFeedButton from "@/components/to-feed-button";
+import { buttonVariants } from "@/components/ui/button";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 

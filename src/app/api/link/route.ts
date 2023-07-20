@@ -8,7 +8,7 @@ export async function GET(req: Request) {
     return new Response("Invalid href", { status: 400 });
   }
 
-  const res = await axios.get(href);
+  const res = await axios.get<string>(href);
 
   // Parse the HTML using regular expressions
   const titleMatch = res.data.match(/<title>(.*?)<\/title>/);

@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const body = await req.json();
+    const body: unknown = await req.json();
 
     const { title, content, subredditId } = PostValidator.parse(body);
 
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     await db.post.create({
       data: {
         title,
-        content,
+        content: content as object,
         authorId: session.user.id,
         subredditId,
       },

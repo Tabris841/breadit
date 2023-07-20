@@ -1,16 +1,16 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { ArrowBigDown, ArrowBigUp, Loader2 } from "lucide-react";
-import { Post, User, Vote } from "@prisma/client";
+import type { Post, User, Vote } from "@prisma/client";
 
-import CommentsSection from "@/components/CommentsSection";
-import EditorOutput from "@/components/EditorOutput";
-import PostVoteServer from "@/components/post-vote/PostVoteServer";
-import { buttonVariants } from "@/components/ui/Button";
+import CommentsSection from "@/components/comments/comments-section";
+import EditorOutput from "@/components/editor-output";
+import PostVoteServer from "@/components/post-vote/post-vote-server";
+import { buttonVariants } from "@/components/ui";
 import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { formatTimeToNow } from "@/lib/utils";
-import { CachedPost } from "@/types/redis";
+import type { CachedPost } from "@/types/redis";
 
 type Props = {
   params: {
@@ -49,7 +49,7 @@ export default async function Page({ params }: Props) {
           <PostVoteServer
             postId={post?.id ?? cachedPost.id}
             getData={async () => {
-              return await db.post.findUnique({
+              return db.post.findUnique({
                 where: {
                   id: params.postId,
                 },
